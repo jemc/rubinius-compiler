@@ -1,7 +1,12 @@
-require "rubinius/compiler/version"
-
-module Rubinius
-  module Compiler
-    # Your code goes here...
-  end
-end
+require "rubinius/compiler/compiler"
+require "rubinius/compiler/stages"
+require "rubinius/compiler/locals"
+require "rubinius/compiler/ast"
+require "rubinius/compiler/generator_methods"
+require "rubinius/compiler/generator"
+require "rubinius/compiler/iseq"
+require "rubinius/compiler/opcodes"
+require "rubinius/compiler/compiled_file"
+require "rubinius/compiler/evaluator"
+require "rubinius/compiler/printers"
+require "rubinius/compiler/runtime"
