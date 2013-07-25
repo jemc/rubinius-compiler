@@ -1,22 +1,23 @@
-# -*- encoding: utf-8 -*-
-require File.expand_path('../lib/rubinius-compiler/version', __FILE__)
+# coding: utf-8
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'rubinius/compiler/version'
 
-Gem::Specification.new do |gem|
-  gem.authors       = ["Brian Shirai"]
-  gem.email         = ["brixen@gmail.com"]
-  gem.description   = %q{The bytecode compiler for the Rubinius virtual machine.}
-  gem.summary       = %q{Rubinius virtual machine bytecode compiler.}
-  gem.homepage      = ""
+Gem::Specification.new do |spec|
+  spec.name          = "rubinius-compiler"
+  spec.version       = Rubinius::Compiler::VERSION
+  spec.authors       = ["Brian Shirai"]
+  spec.email         = ["brixen@gmail.com"]
+  spec.description   = %q{TODO: Write a gem description}
+  spec.summary       = %q{TODO: Write a gem summary}
+  spec.homepage      = ""
+  spec.license       = "MIT"
 
-  gem.files         = `git ls-files`.split($\)
-  gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
-  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
-  gem.name          = "rubinius-compiler"
-  gem.require_paths = ["lib"]
-  gem.version       = Rubinius::Compiler::VERSION
+  spec.files         = `git ls-files`.split($/)
+  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
+  spec.require_paths = ["lib"]
 
-  gem.add_runtime_dependency      "redcard",  "~> 1.0"
-
-  gem.add_development_dependency  "mspec", "~> 1.5"
-  gem.add_development_dependency  "rake",  "~> 10.0"
+  spec.add_development_dependency "bundler", "~> 1.3"
+  spec.add_development_dependency "rake"
 end

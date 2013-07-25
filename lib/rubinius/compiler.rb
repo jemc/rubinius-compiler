@@ -1,4 +1,4 @@
-require "rubinius-compiler/version"
+require "rubinius/compiler/version"
 
 module Rubinius
   module Compiler
