@@ -3,7 +3,7 @@
 ##
 # Used for the Rubinius::asm Compiler hook.
 
-module Rubinius
+module Rubinius::ToolSet.current::TS
   module AST
     class Evaluator
       attr_accessor :self

@@ -1,6 +1,6 @@
 # -*- encoding: us-ascii -*-
 
-module Rubinius
+module Rubinius::ToolSet.current::TS
   ##
   # A decode for the .rbc file format.
 

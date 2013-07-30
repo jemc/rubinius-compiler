@@ -3,7 +3,7 @@
 ##
 # Defines all the bytecode instructions used by the VM.
 
-module Rubinius
+module Rubinius::ToolSet.current::TS
   class InstructionSet
 
     class OpCode

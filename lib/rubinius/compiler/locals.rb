@@ -1,6 +1,6 @@
 # -*- encoding: us-ascii -*-
 
-module Rubinius
+module Rubinius::ToolSet.current::TS
   class Compiler
     module LocalVariables
       def variables

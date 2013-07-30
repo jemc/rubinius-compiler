@@ -1,6 +1,6 @@
 # -*- encoding: us-ascii -*-
 
-module Rubinius
+module Rubinius::ToolSet.current::TS
   class Compiler
     class Printer < Stage
       def initialize
