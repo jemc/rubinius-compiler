@@ -1,6 +1,6 @@
 # -*- encoding: us-ascii -*-
 
-module Rubinius
+module Rubinius::ToolSet.current::TS
   module Compiler::Runtime
     def self.matches_when(array, receiver)
       array.each { |x| return true if x === receiver }
