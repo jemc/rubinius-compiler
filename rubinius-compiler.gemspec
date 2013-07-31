@@ -1,17 +1,15 @@
 # coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'rubinius/compiler/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "rubinius-compiler"
-  spec.version       = Rubinius::Compiler::VERSION
+  spec.version       = Rubinius::ToolSet.current::TS::Compiler::VERSION
   spec.authors       = ["Brian Shirai"]
   spec.email         = ["brixen@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
-  spec.license       = "MIT"
+  spec.description   = %q{Rubinius bytecode compiler.}
+  spec.summary       = %q{Rubinius bytecode compiler.}
+  spec.homepage      = "https://github.com/rubinius/rubinius-compiler"
+  spec.license       = "BSD"
 
   spec.files         = `git ls-files`.split($/)
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
