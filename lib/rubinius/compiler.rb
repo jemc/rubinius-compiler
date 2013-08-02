@@ -1,7 +1,6 @@
 require "rubinius/compiler/compiler"
 require "rubinius/compiler/stages"
 require "rubinius/compiler/locals"
-require "rubinius/compiler/ast"
 require "rubinius/compiler/generator_methods"
 require "rubinius/compiler/generator"
 require "rubinius/compiler/iseq"
