@@ -5,6 +5,18 @@
 
 module Rubinius::ToolSet.current::TS
   module AST
+    class Node
+    end
+
+    class ClosedScope < Node
+    end
+
+    class VariableAccess < Node
+    end
+
+    class VariableAssignment < Node
+    end
+
     class Evaluator
       attr_accessor :self
 
@@ -30,86 +42,86 @@ module Rubinius::ToolSet.current::TS
       end
     end
 
-    class Container
+    class Container < ClosedScope
       def execute(e)
         @body.execute(e)
         return true
       end
     end
 
-    class TrueLiteral
+    class TrueLiteral < Node
       def execute(e)
         true
       end
     end
 
-    class FalseLiteral
+    class FalseLiteral < Node
       def execute(e)
         false
       end
     end
 
-    class NilLiteral
+    class NilLiteral < Node
       def execute(e)
         nil
       end
     end
 
-    class Self
+    class Self < Node
       def execute(e)
         e.self
       end
     end
 
-    class And
+    class And < Node
       def execute(e)
         @left.execute(e) and @right.execute(e)
       end
     end
 
-    class Or
+    class Or < And
       def execute(e)
         @left.execute(e) or @right.execute(e)
       end
     end
 
-    class Not
+    class Not < Node
       def execute(e)
         not @child.execute(e)
       end
     end
 
-    class Negate
+    class Negate < Node
       def execute(e)
         -@child.execute(e)
       end
     end
 
-    class NumberLiteral
+    class NumberLiteral < Node
       def execute(e)
         @value
       end
     end
 
-    class Literal
+    class Literal < Node
       def execute(e)
         @value
       end
     end
 
-    class RegexLiteral
+    class RegexLiteral < Node
       def execute(e)
         ::Regexp.new(@source, @options)
       end
     end
 
-    class StringLiteral
+    class StringLiteral < Node
       def execute(e)
         @string.dup
       end
     end
 
-    class DynamicString
+    class DynamicString < StringLiteral
       def execute(e)
         str = @string.dup
         @body.each do |x|
@@ -120,19 +132,19 @@ module Rubinius::ToolSet.current::TS
       end
     end
 
-    class DynamicRegex
+    class DynamicRegex < DynamicString
       def execute(e)
         ::Regexp.new super(e)
       end
     end
 
-    class DynamicOnceRegex
+    class DynamicOnceRegex < DynamicRegex
       def execute(e)
         @value ||= super(e)
       end
     end
 
-    class If
+    class If < Node
       def execute(e)
         if @condition.execute(e)
           @then.execute(e) if @then
@@ -142,7 +154,7 @@ module Rubinius::ToolSet.current::TS
       end
     end
 
-    class While
+    class While < Node
       def execute(e)
         if @check_first
           while @condition.execute(e)
@@ -156,7 +168,7 @@ module Rubinius::ToolSet.current::TS
       end
     end
 
-    class Until
+    class Until < While
       def execute(e)
         if @check_first
           until @condition.execute(e)
@@ -170,7 +182,7 @@ module Rubinius::ToolSet.current::TS
       end
     end
 
-    class Block
+    class Block < Node
       def execute(e)
         val = nil
         @array.each do |x|
@@ -181,87 +193,87 @@ module Rubinius::ToolSet.current::TS
       end
     end
 
-    class LocalVariableAccess
+    class LocalVariableAccess < VariableAccess
       def execute(e)
         e.get_local @name
       end
     end
 
-    class LocalVariableAssignment
+    class LocalVariableAssignment < VariableAssignment
       def execute(e)
         e.set_local @name, @value.execute(e)
       end
     end
 
-    class ArrayLiteral
+    class ArrayLiteral < Node
       def execute(e)
         @body.map { |x| x.execute(e) }
       end
     end
 
-    class EmptyArray
+    class EmptyArray < Node
       def execute(e)
         []
       end
     end
 
-    class HashLiteral
+    class HashLiteral < Node
       def execute(e)
         args = @array.map { |x| x.execute(e) }
         Hash[*args]
       end
     end
 
-    class SymbolLiteral
+    class SymbolLiteral < Node
       def execute(e)
         @value
       end
     end
 
-    class InstanceVariableAccess
+    class InstanceVariableAccess < VariableAccess
       def execute(e)
         e.self.instance_variable_get @name
       end
     end
 
-    class InstanceVariableAssignment
+    class InstanceVariableAssignment < VariableAssignment
       def execute(e)
         e.self.instance_variable_set @name, @value.execute(e)
       end
     end
 
-    class GlobalVariableAccess
+    class GlobalVariableAccess < VariableAccess
       def execute(e)
         ::Rubinius::Globals[@name]
       end
     end
 
-    class GlobalVariableAssignment
+    class GlobalVariableAssignment < VariableAssignment
       def execute(e)
         ::Rubinius::Globals[@name] = @value.execute(e)
       end
     end
 
-    class ConstantAccess
+    class ConstantAccess < Node
       def execute(e)
         Object.const_get @name
       end
     end
 
-    class ScopedConstant
+    class ScopedConstant < Node
       def execute(e)
         parent = @parent.execute(e)
         parent.const_get @name
       end
     end
 
-    class ToplevelConstant
+    class ToplevelConstant < Node
       def execute(e)
         Object.const_get @name
       end
     end
 
-    class Send
+    class Send < Node
       def execute_receiver(e)
         if @receiver.kind_of? Self
           e.self
@@ -277,7 +289,7 @@ module Rubinius::ToolSet.current::TS
       end
     end
 
-    class SendWithArguments
+    class SendWithArguments < Send
       def execute(e)
         arguments = @arguments.execute(e)
         receiver = execute_receiver(e)
@@ -286,7 +298,7 @@ module Rubinius::ToolSet.current::TS
       end
     end
 
-    class ActualArguments
+    class ActualArguments < Node
       def execute(e)
         array = @array.map { |x| x.execute(e) }
         array << @splat.execute if @splat.kind_of? SplatValue
@@ -294,26 +306,26 @@ module Rubinius::ToolSet.current::TS
       end
     end
 
-    class Yield
+    class Yield < SendWithArguments
       def execute(e)
         # TODO
         e.block.call(*@arguments.execute(e))
       end
     end
 
-    class ExecuteString
+    class ExecuteString < StringLiteral
       def execute(e)
         `#{@string.execute(e)}`
       end
     end
 
-    class ToString
+    class ToString < Node
       def execute(e)
         @child.execute(e).to_s
       end
     end
 
-    class DynamicExecuteString
+    class DynamicExecuteString < DynamicString
       def execute(e)
         `#{super(e)}`
       end
