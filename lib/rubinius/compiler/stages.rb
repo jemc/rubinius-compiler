@@ -68,7 +68,7 @@ module Rubinius::ToolSet.current::TS
         compiler.writer = self
 
         @version = 0
-        @processor = Rubinius::CompiledFile
+        @processor = CompiledFile
         @signature = Rubinius::Signature
       end
 
@@ -144,7 +144,7 @@ module Rubinius::ToolSet.current::TS
         super
         @variable_scope = nil
         compiler.generator = self
-        @processor = Rubinius::Generator
+        @processor = Generator
       end
 
       def run
@@ -164,7 +164,7 @@ module Rubinius::ToolSet.current::TS
         super
         compiler.parser = self
         @transforms = []
-        @processor = Melbourne.system_parser
+        @processor = Melbourne
       end
 
       def root(klass)
