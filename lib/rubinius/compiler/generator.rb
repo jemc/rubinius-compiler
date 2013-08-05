@@ -296,7 +296,7 @@ module Rubinius::ToolSet.current::TS
     # Formalizers
 
     def encode
-      @iseq = InstructionSequence.new @stream.to_tuple
+      @iseq = Rubinius::InstructionSequence.new @stream.to_tuple
 
       begin
         # Validate the stack and calculate the max depth

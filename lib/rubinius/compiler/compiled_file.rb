@@ -149,7 +149,7 @@ module Rubinius::ToolSet.current::TS
           return str.split("::").inject(Object) { |a,n| a.const_get(n) }
         when 112 # ?p
           count = next_string.to_i
-          obj = Tuple.new(count)
+          obj = Rubinius::Tuple.new(count)
           i = 0
           while i < count
             obj[i] = unmarshal_data
@@ -158,7 +158,7 @@ module Rubinius::ToolSet.current::TS
           return obj
         when 105 # ?i
           count = next_string.to_i
-          seq = InstructionSequence.new(count)
+          seq = Rubinius::InstructionSequence.new(count)
           i = 0
           while i < count
             seq[i] = next_string.to_i
@@ -174,7 +174,7 @@ module Rubinius::ToolSet.current::TS
           if version != 1
             raise "Unknown CompiledCode version #{version}"
           end
-          code = CompiledCode.new
+          code = Rubinius::CompiledCode.new
           code.metadata      = unmarshal_data
           code.primitive     = unmarshal_data
           code.name          = unmarshal_data
@@ -265,7 +265,7 @@ module Rubinius::ToolSet.current::TS
         when Symbol
           s = val.to_s
           "x\n#{s.bytesize}\n#{s}\n"
-        when Tuple
+        when Rubinius::Tuple
           str = "p\n#{val.size}\n"
           val.each do |ele|
             data = marshal(ele)
@@ -284,7 +284,7 @@ module Rubinius::ToolSet.current::TS
             str.append " %+.54f %5d" % Math.frexp(val)
           end
           str.append "\n"
-        when InstructionSequence
+        when Rubinius::InstructionSequence
           str = "i\n#{val.size}\n"
           val.opcodes.each do |op|
             unless op.kind_of?(Fixnum)
@@ -293,7 +293,7 @@ module Rubinius::ToolSet.current::TS
             str.append "#{op}\n"
           end
           str
-        when CompiledCode
+        when Rubinius::CompiledCode
           str = "M\n1\n"
           str.append marshal(val.metadata)
           str.append marshal(val.primitive)
