@@ -10,7 +10,7 @@ module Rubinius::ToolSet.current::TS
 
     def self.compiler_error(msg, orig)
       if defined?(RUBY_ENGINE) and RUBY_ENGINE == "rbx"
-        raise Rubinius::CompileError, msg, orig
+        raise CompileError, msg, orig
       else
         orig.message.replace("#{orig.message} - #{msg}")
         raise orig
@@ -358,7 +358,6 @@ module Rubinius::ToolSet.current::TS
 
       parser = compiler.parser
       parser.root AST::Snippet
-      parser.processor Rubinius::Melbourne19
       parser.input string
       transforms.each { |x| parser.enable_transform x }
 
