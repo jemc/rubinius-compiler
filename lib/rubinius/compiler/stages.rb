@@ -144,7 +144,7 @@ module Rubinius::ToolSet.current::TS
         super
         @variable_scope = nil
         compiler.generator = self
-        @processor = Generator
+        @processor = ToolSet::Generator
       end
 
       def run
