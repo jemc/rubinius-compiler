@@ -348,7 +348,7 @@ module Rubinius::ToolSet.current::TS
       parser.input string
       transforms.each { |x| parser.enable_transform x }
 
-      compiler.generator.processor TestGenerator
+      compiler.generator.processor Rubinius::TestGenerator
 
       compiler.run
     end
