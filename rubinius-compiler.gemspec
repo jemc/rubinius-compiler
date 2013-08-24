@@ -1,4 +1,5 @@
 # coding: utf-8
+require 'rubinius/toolset'
 require './lib/rubinius/compiler/version'
 
 Gem::Specification.new do |spec|
