@@ -134,7 +134,7 @@ module Rubinius::ToolSet.current::TS
           stack = 0
 
           while i < n
-            insn = InstructionSet[stream[i]]
+            insn = Rubinius::InstructionSet[stream[i]]
             printf "[%3d] %04d  %-28s" % [stack, i, insn.opcode.inspect]
 
             args = stream[i+1, insn.size-1]
@@ -619,7 +619,7 @@ module Rubinius::ToolSet.current::TS
 
     def send_with_splat(meth, args, priv=false, concat=false)
       val = 0
-      val |= InstructionSet::CALL_FLAG_CONCAT if concat
+      val |= Rubinius::InstructionSet::CALL_FLAG_CONCAT if concat
       set_call_flags val unless val == 0
 
       allow_private if priv
