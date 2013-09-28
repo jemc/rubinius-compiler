@@ -56,7 +56,7 @@ module Rubinius::ToolSet.current::TS
         puts "Stack size:  #{code.stack_size}"
         literals = code.literals.collect do |literal|
           case literal
-          when CompiledCode
+          when Rubinius::CompiledCode
             "<compiled code>"
           else
             literal.inspect
