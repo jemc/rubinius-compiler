@@ -3,7 +3,7 @@
 ##
 # Used for the Rubinius::asm Compiler hook.
 
-module Rubinius::ToolSet.current::ToolSet
+module Rubinius::ToolSets.current::ToolSet
   module AST
     class Node
     end
