@@ -4,7 +4,7 @@ require './lib/rubinius/compiler/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "rubinius-compiler"
-  spec.version       = Rubinius::ToolSet.current::TS::Compiler::VERSION
+  spec.version       = Rubinius::ToolSet.current::ToolSet::Compiler::VERSION
   spec.authors       = ["Brian Shirai"]
   spec.email         = ["brixen@gmail.com"]
   spec.description   = %q{Rubinius bytecode compiler.}
