@@ -1,5 +1,5 @@
 module Rubinius::ToolSets.current::ToolSet
-  module Compiler
-    VERSION = "1.0.1"
+  class Compiler
+    VERSION = "1.1.0"
   end
 end
