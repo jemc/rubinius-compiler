@@ -252,32 +252,10 @@ module Rubinius::ToolSets.current::ToolSet
         when Fixnum, Bignum
           "I\n#{val.to_s(16)}\n"
         when String
-          if defined?(Encoding)
-            # We manually construct the Encoding data to avoid recursion
-            # marshaling an Encoding name as a String.
-            name = val.encoding.name
-            enc_name = "E\n#{name.bytesize}\n#{name}\n"
-          else
-            # The kernel code is all US-ASCII. When building melbourne for 1.8
-            # Ruby, we fake a bunch of encoding stuff so force US-ASCII here.
-            enc_name = "E\n8\nUS-ASCII\n"
-          end
-
-          "s\n#{enc_name}#{val.bytesize}\n#{val}\n"
+          "s\n#{val.size}\n#{val}\n"
         when Symbol
           s = val.to_s
-          if defined?(Encoding)
-            # We manually construct the Encoding data to avoid recursion
-            # marshaling an Encoding name as a String.
-            name = s.encoding.name
-            enc_name = "E\n#{name.bytesize}\n#{name}\n"
-          else
-            # The kernel code is all US-ASCII. When building melbourne for 1.8
-            # Ruby, we fake a bunch of encoding stuff so force US-ASCII here.
-            enc_name = "E\n8\nUS-ASCII\n"
-          end
-
-          "x\n#{enc_name}#{s.bytesize}\n#{s}\n"
+          "x\n#{s.size}\n#{s}\n"
         when Rubinius::Tuple
           str = "p\n#{val.size}\n"
           val.each do |ele|
