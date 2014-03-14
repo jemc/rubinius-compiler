@@ -116,7 +116,7 @@ module Rubinius
 
     # TODO: put TestGenerator under Rubinius
     def push_state(scope)
-      @state << Rubinius::AST::State.new(scope)
+      @state << Rubinius::ToolSets::Spec::AST::State.new(scope)
     end
 
     def pop_state
