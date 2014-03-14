@@ -97,12 +97,10 @@ describe "A For node" do
         d.cast_for_multi_block_arg
       end
 
-      ruby_version_is "1.9" do
-        d.push_literal Rubinius::Compiler::Runtime
-        d.push_local 0
-        d.send :unwrap_block_arg, 1
-        d.cast_array
-      end
+      d.push_literal Rubinius::ToolSets::Spec::Compiler::Runtime
+      d.push_local 0
+      d.send :unwrap_block_arg, 1
+      d.cast_array
 
       d.shift_array
       d.set_local_depth 1, 0
