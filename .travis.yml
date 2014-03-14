@@ -1,0 +1,7 @@
+language: ruby
+env:
+  - RUBYLIB=lib:.
+before_install: gem install rubinius-toolset
+rvm:
+  - 2.1.0
+  - rbx-2
