@@ -1,4 +1,4 @@
-require File.expand_path('../../spec_helper', __FILE__)
+require File.expand_path('../spec_helper', __FILE__)
 
 describe "A Masgn node" do
   relates "a, b.c = b.c, true" do

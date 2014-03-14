@@ -1,4 +1,4 @@
-require File.expand_path('../../../spec_helper', __FILE__)
+require File.expand_path('../../spec_helper', __FILE__)
 
 describe "A Call node using SendFastCoerceTo transform" do
   relates <<-ruby do
