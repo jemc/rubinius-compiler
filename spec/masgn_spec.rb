@@ -310,13 +310,24 @@ describe "A Masgn node" do
       g.push :self
       g.send :b, 0, true
 
+      array = g.new_label
+      g.cast_multi_value
+      g.cast_array
+      g.dup
+      g.dup
+      g.push_cpath_top
+      g.find_const :Array
+      g.swap
+      g.kind_of
+      g.git array
+
       g.make_array 1
+
+      array.set!
       g.push :self
       g.send :a, 0, true
       g.swap
       g.send :m=, 1, false
-
-      g.dup
       g.pop
     end
   end
@@ -398,14 +409,27 @@ describe "A Masgn node" do
     compile do |g|
       g.push :self
       g.send :b, 0, true
+
+      array = g.new_label
+      g.cast_multi_value
+      g.cast_array
+      g.dup
+      g.dup
+      g.push_cpath_top
+      g.find_const :Array
+      g.swap
+      g.kind_of
+      g.git array
+
       g.make_array 1
+
+      array.set!
       g.push_rubinius
       g.find_const :Globals
       g.swap
       g.push_literal :$a
       g.swap
       g.send :[]=, 2
-      g.dup
       g.pop
     end
   end
@@ -455,9 +479,21 @@ describe "A Masgn node" do
       g.push :self
       g.send :b, 0, true
 
-      g.make_array 1
-      g.set_ivar :@a
+      array = g.new_label
+      g.cast_multi_value
+      g.cast_array
       g.dup
+      g.dup
+      g.push_cpath_top
+      g.find_const :Array
+      g.swap
+      g.kind_of
+      g.git array
+
+      g.make_array 1
+
+      array.set!
+      g.set_ivar :@a
 
       g.pop
     end
@@ -720,9 +756,21 @@ describe "A Masgn node" do
       g.push :self
       g.send :b, 0, true
 
-      g.make_array 1
-      g.set_local 0
+      array = g.new_label
+      g.cast_multi_value
+      g.cast_array
       g.dup
+      g.dup
+      g.push_cpath_top
+      g.find_const :Array
+      g.swap
+      g.kind_of
+      g.git array
+
+      g.make_array 1
+
+      array.set!
+      g.set_local 0
 
       g.pop
     end
@@ -1448,9 +1496,21 @@ describe "A Masgn node" do
         d.set_local_depth 1, 0
       end
 
-      g.make_array 1
-      g.set_local 0
+      array = g.new_label
+      g.cast_multi_value
+      g.cast_array
       g.dup
+      g.dup
+      g.push_cpath_top
+      g.find_const :Array
+      g.swap
+      g.kind_of
+      g.git array
+
+      g.make_array 1
+
+      array.set!
+      g.set_local 0
 
       g.pop
     end
