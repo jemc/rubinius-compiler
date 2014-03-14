@@ -2,6 +2,7 @@ language: ruby
 env:
   - RUBYLIB=lib:.
 before_install: gem install rubinius-toolset
+script: mspec -r spec/spec_helper spec
 rvm:
   - 2.1.0
   - rbx-2
