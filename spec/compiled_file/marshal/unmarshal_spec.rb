@@ -1,6 +1,6 @@
 describe "Rubinius::ToolSets::Runtime::CompiledFile::Marshal#unmarshal" do
   before :each do
-    @marshal = Rubinius::ToolSets::Runtime::CompiledFile::Marshal.new
+    @marshal = Rubinius::ToolSets::Spec::CompiledFile::Marshal.new
   end
 
   it "unmarshals true" do
