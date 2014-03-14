@@ -12,36 +12,24 @@ describe "An Ensure node" do
     ruby
 
     compile do |g|
-      top    = g.new_label
-      dunno  = g.new_label
-      bottom = g.new_label
+      g.for_ensure do |eb|
+        eb.body do
+          g.for_rescue do |rb|
+            rb.body do
+              g.push :nil
+            end
 
-      g.setup_unwind dunno
+            rb.condition :StandardError, true do
+              g.push :nil
+            end
+          end
+        end
 
-      top.set!
-
-      g.save_exception
-
-      g.push_modifiers
-      g.push :nil
-      g.pop_modifiers
-      g.pop_unwind
-      g.goto bottom
-
-      dunno.set!
-
-      g.push_exception_state
-
-      g.push :nil
-      g.pop
-
-      g.restore_exception_state
-      g.reraise
-
-      bottom.set!
-
-      g.push :nil
-      g.pop
+        eb.handler do
+          g.push :nil
+          g.pop
+        end
+      end
     end
   end
 
