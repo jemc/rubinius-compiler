@@ -1,5 +1,3 @@
-require File.expand_path('../spec_helper', __FILE__)
-
 describe "An Iter node" do
   empty_block = lambda do |g|
     g.push :self

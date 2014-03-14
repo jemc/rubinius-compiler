@@ -1,5 +1,3 @@
-require File.expand_path('../spec_helper', __FILE__)
-
 describe "A Gasgn node" do
   relates "$x = 42" do
     compile do |g|

@@ -1,5 +1,3 @@
-require File.expand_path('../spec_helper', __FILE__)
-
 describe "A While node" do
   pre_while = lambda do |g|
     top    = g.new_label

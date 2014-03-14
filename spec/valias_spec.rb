@@ -1,5 +1,3 @@
-require File.expand_path('../spec_helper', __FILE__)
-
 describe "A Valias node" do
   relates "alias $y $x" do
     compile do |g|

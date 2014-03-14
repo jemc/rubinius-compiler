@@ -1,5 +1,3 @@
-require File.expand_path('../spec_helper', __FILE__)
-
 describe "A Cvar node" do
   relates "@@x" do
     compile do |g|

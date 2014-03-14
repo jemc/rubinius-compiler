@@ -1,5 +1,3 @@
-require File.expand_path('../spec_helper', __FILE__)
-
 describe "A Match node" do
   relates "1 if /x/" do
     compile do |g|

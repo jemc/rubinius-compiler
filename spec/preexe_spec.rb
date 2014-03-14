@@ -1,5 +1,3 @@
-require File.expand_path('../spec_helper', __FILE__)
-
 describe "A Preexe node" do
   ruby_version_is ""..."1.9" do
     relates "BEGIN { 1 }" do

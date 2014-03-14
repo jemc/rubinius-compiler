@@ -1,5 +1,3 @@
-require File.expand_path('../spec_helper', __FILE__)
-
 describe "An Undef node" do
   relates "undef :x" do
     compile do |g|

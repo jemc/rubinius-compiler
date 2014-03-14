@@ -1,5 +1,3 @@
-require File.expand_path('../spec_helper', __FILE__)
-
 describe "An Alias node" do
   alias_both = lambda do |g|
     g.push_scope

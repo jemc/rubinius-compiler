@@ -1,5 +1,3 @@
-require File.expand_path('../spec_helper', __FILE__)
-
 describe "A Lit node" do
   relates "0b1111" do
     compile do |g|

@@ -1,5 +1,3 @@
-require File.expand_path('../spec_helper', __FILE__)
-
 describe "A Defined node" do
   relates "defined? $x" do
     compile do |g|

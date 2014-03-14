@@ -1,5 +1,3 @@
-require File.expand_path('../spec_helper', __FILE__)
-
 describe "An If node" do
   nil_condition = lambda do |g|
     f = g.new_label

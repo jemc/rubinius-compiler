@@ -1,5 +1,3 @@
-require File.expand_path('../spec_helper', __FILE__)
-
 describe "An Back_ref node" do
   relates "[$&, $`, $', $+]" do
     compile do |g|

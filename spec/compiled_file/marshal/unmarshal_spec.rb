@@ -1,5 +1,3 @@
-require File.expand_path('../../../spec_helper', __FILE__)
-
 describe "Rubinius::ToolSets::Runtime::CompiledFile::Marshal#unmarshal" do
   before :each do
     @marshal = Rubinius::ToolSets::Runtime::CompiledFile::Marshal.new

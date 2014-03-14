@@ -1,5 +1,3 @@
-require File.expand_path('../../spec_helper', __FILE__)
-
 describe "Rubinius::Generator#encode" do
   before :each do
     @g = Rubinius::ToolSets::Spec::Generator.new

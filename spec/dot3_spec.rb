@@ -1,5 +1,3 @@
-require File.expand_path('../spec_helper', __FILE__)
-
 describe "A Dot3 node" do
   relates "(a...b)" do
     compile do |g|

@@ -1,5 +1,3 @@
-require File.expand_path('../../spec_helper', __FILE__)
-
 describe "A Call node using InvokePrimitive transform" do
   relates <<-ruby do
       Rubinius.invoke_primitive :name, 1, 2, a

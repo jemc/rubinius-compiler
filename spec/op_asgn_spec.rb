@@ -1,5 +1,3 @@
-require File.expand_path('../spec_helper', __FILE__)
-
 describe "An Op_asgn1 node" do
   relates "a &&= 8" do
     compile do |g|

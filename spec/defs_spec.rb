@@ -1,5 +1,3 @@
-require File.expand_path('../spec_helper', __FILE__)
-
 describe "A Defs node" do
   relates <<-ruby do
       def self.x(y)

@@ -1,5 +1,3 @@
-require File.expand_path('../../spec_helper', __FILE__)
-
 describe "A Call node using InlineAssembly transform" do
   relates <<-ruby do
       Rubinius.asm(a) do |m|

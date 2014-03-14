@@ -1,5 +1,3 @@
-require File.expand_path('../../spec_helper', __FILE__)
-
 describe "A Call node using BlockGiven transform" do
   block_given = lambda do |g|
     in_method :m do |d|

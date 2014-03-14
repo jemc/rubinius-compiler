@@ -1,5 +1,3 @@
-require File.expand_path('../spec_helper', __FILE__)
-
 describe "An Until node" do
   pre_until = lambda do |g|
     top    = g.new_label

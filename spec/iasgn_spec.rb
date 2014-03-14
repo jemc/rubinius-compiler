@@ -1,5 +1,3 @@
-require File.expand_path('../spec_helper', __FILE__)
-
 describe "A Iasgn node" do
   relates "@a = 4" do
     compile do |g|

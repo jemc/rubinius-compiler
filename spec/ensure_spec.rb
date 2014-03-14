@@ -1,5 +1,3 @@
-require File.expand_path('../spec_helper', __FILE__)
-
 describe "An Ensure node" do
   relates <<-ruby do
       begin

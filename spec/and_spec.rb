@@ -1,5 +1,3 @@
-require File.expand_path('../spec_helper', __FILE__)
-
 describe "An And node" do
   relates "(a and b)" do
     compile do |g|

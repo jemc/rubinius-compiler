@@ -1,5 +1,3 @@
-require File.expand_path('../../spec_helper', __FILE__)
-
 describe "A Call node using FastNew transform" do
   relates "new(a)" do
     compile do |g|

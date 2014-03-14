@@ -1,5 +1,3 @@
-require File.expand_path('../spec_helper', __FILE__)
-
 describe "An Array node" do
   relates '[1, :b, "c"]' do
     compile do |g|
