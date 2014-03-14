@@ -2,7 +2,7 @@ require File.expand_path('../../spec_helper', __FILE__)
 
 describe "Rubinius::Generator#encode" do
   before :each do
-    @g = Rubinius::Generator.new
+    @g = Rubinius::ToolSets::Spec::Generator.new
     @g.set_line 1
   end
 
@@ -10,7 +10,7 @@ describe "Rubinius::Generator#encode" do
     @g.ret
     @g.close
 
-    lambda { @g.encode }.should raise_error(Rubinius::CompileError)
+    lambda { @g.encode }.should raise_error(Rubinius::ToolSets::Spec::CompileError)
   end
 
   it "raises a CompileError if pop is called on an empty stack" do
@@ -18,7 +18,7 @@ describe "Rubinius::Generator#encode" do
     @g.ret
     @g.close
 
-    lambda { @g.encode }.should raise_error(Rubinius::CompileError)
+    lambda { @g.encode }.should raise_error(Rubinius::ToolSets::Spec::CompileError)
   end
 
   it "raises a CompileError if a BasicBlock's minimum stack size is negative" do
@@ -31,6 +31,6 @@ describe "Rubinius::Generator#encode" do
     @g.ret
     @g.close
 
-    lambda { @g.encode }.should raise_error(Rubinius::CompileError)
+    lambda { @g.encode }.should raise_error(Rubinius::ToolSets::Spec::CompileError)
   end
 end
