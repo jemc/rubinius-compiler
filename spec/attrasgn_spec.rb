@@ -78,17 +78,6 @@ describe "An Attrasgn node" do
       g.send :d, 0, true
       g.cast_array
       g.dup
-      g.send :size, 0
-      g.push 1
-      g.send :>, 1
-
-      bigger = g.new_label
-      g.git bigger
-      g.push 0
-      g.send :at, 1
-
-      bigger.set!
-      g.dup
       g.move_down 3
       g.swap
       g.push :nil
