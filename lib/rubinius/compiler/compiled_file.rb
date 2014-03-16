@@ -184,7 +184,6 @@ module Rubinius::ToolSets.current::ToolSet
           code.stack_size    = unmarshal_data
           code.local_count   = unmarshal_data
           code.required_args = unmarshal_data
-          code.post_args     = unmarshal_data
           code.total_args    = unmarshal_data
           code.splat         = unmarshal_data
           code.literals      = unmarshal_data
@@ -293,7 +292,6 @@ module Rubinius::ToolSets.current::ToolSet
           str.append marshal(val.stack_size)
           str.append marshal(val.local_count)
           str.append marshal(val.required_args)
-          str.append marshal(val.post_args)
           str.append marshal(val.total_args)
           str.append marshal(val.splat)
           str.append marshal(val.literals)
