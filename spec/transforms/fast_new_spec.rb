@@ -34,7 +34,7 @@ describe "A Call node using FastNew transform" do
   end
 
   relates "new(&block)" do
-    fast_new_with_block = lambda do
+    fast_new_with_block = lambda do |g|
       g.push :self
       g.push :self
       g.send :block, 0, true
@@ -59,7 +59,7 @@ describe "A Call node using FastNew transform" do
   end
 
   relates "new(a, &block)" do
-    fast_new_with_arg_block = lambda do
+    fast_new_with_arg_block = lambda do |g|
       g.push :self
       g.push :self
       g.send :a, 0, true
@@ -149,7 +149,7 @@ describe "A Call node using FastNew transform" do
   end
 
   relates "A.new(&block)" do
-    fast_new_with_block = lambda do
+    fast_new_with_block = lambda do |g|
       g.push_const :A
       g.push :self
       g.send :block, 0, true
@@ -174,7 +174,7 @@ describe "A Call node using FastNew transform" do
   end
 
   relates "A.new(a, &block)" do
-    fast_new_with_arg_block = lambda do
+    fast_new_with_arg_block = lambda do |g|
       g.push_const :A
       g.push :self
       g.send :a, 0, true
