@@ -1,4 +1,4 @@
-# -*- encoding: us-ascii -*-
+# -*- encoding: ascii-8bit -*-
 
 module Rubinius::ToolSets.current::ToolSet
   ##
@@ -137,13 +137,13 @@ module Rubinius::ToolSets.current::ToolSet
           enc = unmarshal_data
           count = next_string.to_i
           str = next_bytes count
-          str.force_encoding enc if enc and defined?(Encoding)
+          str.force_encoding enc if enc
           return str
         when 120 # ?x
           enc = unmarshal_data
           count = next_string.to_i
           str = next_bytes count
-          str.force_encoding enc if enc and defined?(Encoding)
+          str.force_encoding enc if enc
           return str.to_sym
         when 99  # ?c
           count = next_string.to_i
@@ -170,7 +170,7 @@ module Rubinius::ToolSets.current::ToolSet
         when 69  # ?E
           count = next_string.to_i
           name = next_bytes count
-          return Encoding.find(name) if defined?(Encoding)
+          return Encoding.find(name)
         when 77  # ?M
           version = next_string.to_i
           if version != 1
@@ -239,6 +239,26 @@ module Rubinius::ToolSets.current::ToolSet
       private :next_bytes
 
       ##
+      # A helper function to force strings to ASCII-8BIT encoding. This is
+      # needed because Ruby's encoding system causes the result of a UTF-8
+      # string interpolated in a file (like this one) with a ASCII-8BIT
+      # encoding magic comment to be UTF-8. In other words, given the
+      # following script:
+      #
+      #   # -*- encoding: ascii-8bit -*s
+      #
+      #   x = "❤"
+      #   s = "abc #{x}"
+      #
+      # the string, s, will have UTF-8 encoding, NOT ASCII-8BIT encoding.
+
+      def b(val)
+        val.force_encoding Encoding::ASCII_8BIT
+      end
+
+      private :b
+
+      ##
       # For object +val+, return a String represetation.
 
       def marshal(val)
@@ -250,40 +270,20 @@ module Rubinius::ToolSets.current::ToolSet
         when NilClass
           "n\n"
         when Fixnum, Bignum
-          "I\n#{val.to_s(16)}\n"
+          b "I\n#{val.to_s(16)}\n"
         when String
-          if defined?(Encoding)
-            # We manually construct the Encoding data to avoid recursion
-            # marshaling an Encoding name as a String.
-            name = val.encoding.name
-            enc_name = "E\n#{name.bytesize}\n#{name}\n"
-          else
-            # The kernel code is all US-ASCII. When building melbourne for 1.8
-            # Ruby, we fake a bunch of encoding stuff so force US-ASCII here.
-            enc_name = "E\n8\nUS-ASCII\n"
-          end
-
-          "s\n#{enc_name}#{val.bytesize}\n#{val}\n"
+          name = val.encoding.name
+          enc_name = "E\n#{name.bytesize}\n#{name}\n"
+          b "s\n#{enc_name}#{val.bytesize}\n#{val}\n"
         when Symbol
           s = val.to_s
-          if defined?(Encoding)
-            # We manually construct the Encoding data to avoid recursion
-            # marshaling an Encoding name as a String.
-            name = s.encoding.name
-            enc_name = "E\n#{name.bytesize}\n#{name}\n"
-          else
-            # The kernel code is all US-ASCII. When building melbourne for 1.8
-            # Ruby, we fake a bunch of encoding stuff so force US-ASCII here.
-            enc_name = "E\n8\nUS-ASCII\n"
-          end
-
-          "x\n#{enc_name}#{s.bytesize}\n#{s}\n"
+          name = s.encoding.name
+          enc_name = "E\n#{name.bytesize}\n#{name}\n"
+          b "x\n#{enc_name}#{s.bytesize}\n#{s}\n"
         when Rubinius::Tuple
           str = "p\n#{val.size}\n"
           val.each do |ele|
-            data = marshal(ele)
-            data.force_encoding(str.encoding) if defined?(Encoding)
-            str.append data
+            str.append marshal(ele)
           end
           str
         when Float
