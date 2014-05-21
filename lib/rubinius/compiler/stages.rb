@@ -134,7 +134,7 @@ module CodeTools
     end
 
     # AST -> symbolic bytecode
-    class Generator < Stage
+    class Bytecode < Stage
       stage :bytecode
       next_stage Encoder
 
@@ -144,7 +144,7 @@ module CodeTools
         super
         @variable_scope = nil
         compiler.generator = self
-        @processor = ToolSet::Generator
+        @processor = Generator
       end
 
       def run
@@ -214,7 +214,7 @@ module CodeTools
     # source file -> AST
     class FileParser < Parser
       stage :file
-      next_stage Generator
+      next_stage Bytecode
 
       def input(file, line=1)
         @file = file
@@ -229,7 +229,7 @@ module CodeTools
     # source string -> AST
     class StringParser < Parser
       stage :string
-      next_stage Generator
+      next_stage Bytecode
 
       def input(string, name="(eval)", line=1)
         @input = string
@@ -244,7 +244,7 @@ module CodeTools
 
     class EvalParser < StringParser
       stage :eval
-      next_stage Generator
+      next_stage Bytecode
 
       def should_cache?
         @output.should_cache?
