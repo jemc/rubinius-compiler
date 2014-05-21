@@ -1,4 +1,4 @@
-module Rubinius::ToolSets.current::ToolSet
+module CodeTools
   class Compiler
     VERSION = "2.1.1"
   end

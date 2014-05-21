@@ -1,6 +1,6 @@
 # -*- encoding: ascii-8bit -*-
 
-module Rubinius::ToolSets.current::ToolSet
+module CodeTools
   ##
   # A decode for the .rbc file format.
 

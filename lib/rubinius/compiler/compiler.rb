@@ -1,6 +1,6 @@
 # -*- encoding: us-ascii -*-
 
-module Rubinius::ToolSets.current::ToolSet
+module CodeTools
 
   class CompileError < RuntimeError
   end
