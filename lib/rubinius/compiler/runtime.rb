@@ -67,6 +67,11 @@ module CodeTools
     def self.pre_exe
       yield
     end
+
+    def self.splat_hash_value(hash, value)
+      value = Rubinius::Type.coerce_to value, Hash, :to_hash
+      value.merge hash
+    end
   end
 end
 
