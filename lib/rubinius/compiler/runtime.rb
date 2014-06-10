@@ -72,6 +72,11 @@ module CodeTools
       value = Rubinius::Type.coerce_to value, Hash, :to_hash
       value.merge hash
     end
+
+    def self.splat_hash_entry(hash, key, value)
+      hash[key] = value unless hash.key? key
+      hash
+    end
   end
 end
 
