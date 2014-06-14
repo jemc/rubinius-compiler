@@ -318,6 +318,8 @@ module CodeTools
           str.append marshal(val.post_args)
           str.append marshal(val.total_args)
           str.append marshal(val.splat)
+          str.append marshal(val.keywords)
+          str.append marshal(val.arity)
           str.append marshal(val.literals)
           str.append marshal(val.lines)
           str.append marshal(val.file)
