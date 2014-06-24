@@ -297,6 +297,16 @@ module CodeTools
             str.append " %+.54f %5d" % Math.frexp(val)
           end
           str.append "\n"
+        when Rational
+          str = "R\n"
+          str.append marshal(val.numerator)
+          str.append marshal(val.denominator)
+          str
+        when Complex
+          str = "C\n"
+          str.append marshal(val.real)
+          str.append marshal(val.imaginary)
+          str
         when Rubinius::InstructionSequence
           str = "i\n#{val.size}\n"
           val.opcodes.each do |op|
