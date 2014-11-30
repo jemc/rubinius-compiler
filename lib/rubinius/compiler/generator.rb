@@ -452,6 +452,12 @@ module CodeTools
     alias_method :dup,  :dup_top
     alias_method :git,  :goto_if_true
     alias_method :gif,  :goto_if_false
+    alias_method :gin,  :goto_if_nil
+    alias_method :ginn, :goto_if_not_nil
+    alias_method :giu,  :goto_if_undefined
+    alias_method :ginu, :goto_if_not_undefined
+    alias_method :gie,  :goto_if_equal
+    alias_method :gine, :goto_if_not_equal
     alias_method :swap, :swap_stack
 
     # Helpers
