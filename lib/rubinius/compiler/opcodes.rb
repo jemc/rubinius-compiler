@@ -35,122 +35,123 @@ module Rubinius
     opcode 22, :pop_many,                    :stack => [[0,1], 0], :args => [:count],                         :control_flow => :next
     opcode 23, :rotate,                      :stack => [[0,1], [0, 1, 1]],:args => [:count],                         :control_flow => :next
     opcode 24, :move_down,                   :stack => [[0,1], [0, 1, 1]],:args => [:positions],                     :control_flow => :next
+    opcode 25, :move_up,                     :stack => [[0,1], [0, 1, 1]],:args => [:positions],                     :control_flow => :next
 
     # Manipulate local variables
-    opcode 25, :set_local,                   :stack => [1, 1],     :args => [:local],                         :control_flow => :next
-    opcode 26, :push_local,                  :stack => [0, 1],     :args => [:local],                         :control_flow => :next
-    opcode 27, :push_local_depth,            :stack => [0, 1],     :args => [:depth, :index],                 :control_flow => :next
-    opcode 28, :set_local_depth,             :stack => [1, 1],     :args => [:depth, :index],                 :control_flow => :next
-    opcode 29, :passed_arg,                  :stack => [0, 1],     :args => [:index],                         :control_flow => :next
+    opcode 26, :set_local,                   :stack => [1, 1],     :args => [:local],                         :control_flow => :next
+    opcode 27, :push_local,                  :stack => [0, 1],     :args => [:local],                         :control_flow => :next
+    opcode 28, :push_local_depth,            :stack => [0, 1],     :args => [:depth, :index],                 :control_flow => :next
+    opcode 29, :set_local_depth,             :stack => [1, 1],     :args => [:depth, :index],                 :control_flow => :next
+    opcode 30, :passed_arg,                  :stack => [0, 1],     :args => [:index],                         :control_flow => :next
 
     # Manipulate exceptions
-    opcode 30, :push_current_exception,      :stack => [0, 1],     :args => [],                               :control_flow => :next
-    opcode 31, :clear_exception,             :stack => [0, 0],     :args => [],                               :control_flow => :next
-    opcode 32, :push_exception_state,        :stack => [0, 1],     :args => [],                               :control_flow => :next
-    opcode 33, :restore_exception_state,     :stack => [1, 0],     :args => [],                               :control_flow => :next
-    opcode 34, :raise_exc,                   :stack => [1, 0],     :args => [],                               :control_flow => :raise
-    opcode 35, :setup_unwind,                :stack => [0, 0],     :args => [:ip, :type],                     :control_flow => :handler
-    opcode 36, :pop_unwind,                  :stack => [0, 0],     :args => [],                               :control_flow => :next
-    opcode 37, :raise_return,                :stack => [1, 1],     :args => [],                               :control_flow => :raise
-    opcode 38, :ensure_return,               :stack => [1, 1],     :args => [],                               :control_flow => :raise
-    opcode 39, :raise_break,                 :stack => [1, 1],     :args => [],                               :control_flow => :raise
-    opcode 40, :reraise,                     :stack => [0, 0],     :args => [],                               :control_flow => :raise
+    opcode 31, :push_current_exception,      :stack => [0, 1],     :args => [],                               :control_flow => :next
+    opcode 32, :clear_exception,             :stack => [0, 0],     :args => [],                               :control_flow => :next
+    opcode 33, :push_exception_state,        :stack => [0, 1],     :args => [],                               :control_flow => :next
+    opcode 34, :restore_exception_state,     :stack => [1, 0],     :args => [],                               :control_flow => :next
+    opcode 35, :raise_exc,                   :stack => [1, 0],     :args => [],                               :control_flow => :raise
+    opcode 36, :setup_unwind,                :stack => [0, 0],     :args => [:ip, :type],                     :control_flow => :handler
+    opcode 37, :pop_unwind,                  :stack => [0, 0],     :args => [],                               :control_flow => :next
+    opcode 38, :raise_return,                :stack => [1, 1],     :args => [],                               :control_flow => :raise
+    opcode 39, :ensure_return,               :stack => [1, 1],     :args => [],                               :control_flow => :raise
+    opcode 40, :raise_break,                 :stack => [1, 1],     :args => [],                               :control_flow => :raise
+    opcode 41, :reraise,                     :stack => [0, 0],     :args => [],                               :control_flow => :raise
 
     # Manipulate arrays
-    opcode 41, :make_array,                  :stack => [[0,1], 1], :args => [:count],                         :control_flow => :next
-    opcode 42, :cast_array,                  :stack => [1, 1],     :args => [],                               :control_flow => :next
-    opcode 43, :shift_array,                 :stack => [1, 2],     :args => [],                               :control_flow => :next
+    opcode 42, :make_array,                  :stack => [[0,1], 1], :args => [:count],                         :control_flow => :next
+    opcode 43, :cast_array,                  :stack => [1, 1],     :args => [],                               :control_flow => :next
+    opcode 44, :shift_array,                 :stack => [1, 2],     :args => [],                               :control_flow => :next
 
     # Manipulate instance variables
-    opcode 44, :set_ivar,                    :stack => [1, 1],     :args => [:literal],                       :control_flow => :next
-    opcode 45, :push_ivar,                   :stack => [0, 1],     :args => [:literal],                       :control_flow => :next
+    opcode 45, :set_ivar,                    :stack => [1, 1],     :args => [:literal],                       :control_flow => :next
+    opcode 46, :push_ivar,                   :stack => [0, 1],     :args => [:literal],                       :control_flow => :next
 
     # Manipulate constants
-    opcode 46, :push_const,                  :stack => [0, 1],     :args => [:literal],                       :control_flow => :next
-    opcode 47, :set_const,                   :stack => [1, 1],     :args => [:literal],                       :control_flow => :next
-    opcode 48, :set_const_at,                :stack => [2, 1],     :args => [:literal],                       :control_flow => :next
-    opcode 49, :find_const,                  :stack => [1, 1],     :args => [:literal],                       :control_flow => :next
-    opcode 50, :push_cpath_top,              :stack => [0, 1],     :args => [],                               :control_flow => :next
-    opcode 51, :push_const_fast,             :stack => [0, 1],     :args => [:literal],                       :control_flow => :next
-    opcode 52, :find_const_fast,             :stack => [1, 1],     :args => [:literal],                       :control_flow => :next
+    opcode 47, :push_const,                  :stack => [0, 1],     :args => [:literal],                       :control_flow => :next
+    opcode 48, :set_const,                   :stack => [1, 1],     :args => [:literal],                       :control_flow => :next
+    opcode 49, :set_const_at,                :stack => [2, 1],     :args => [:literal],                       :control_flow => :next
+    opcode 50, :find_const,                  :stack => [1, 1],     :args => [:literal],                       :control_flow => :next
+    opcode 51, :push_cpath_top,              :stack => [0, 1],     :args => [],                               :control_flow => :next
+    opcode 52, :push_const_fast,             :stack => [0, 1],     :args => [:literal],                       :control_flow => :next
+    opcode 53, :find_const_fast,             :stack => [1, 1],     :args => [:literal],                       :control_flow => :next
 
     # Send messages
-    opcode 53, :set_call_flags,              :stack => [0, 0],     :args => [:flags],                         :control_flow => :next
-    opcode 54, :allow_private,               :stack => [0, 0],     :args => [],                               :control_flow => :next
-    opcode 55, :send_method,                 :stack => [1, 1],     :args => [:literal],                       :control_flow => :send
-    opcode 56, :send_stack,                  :stack => [[1,2], 1], :args => [:literal, :count],               :control_flow => :send
-    opcode 57, :send_stack_with_block,       :stack => [[2,2], 1], :args => [:literal, :count],               :control_flow => :send
+    opcode 54, :set_call_flags,              :stack => [0, 0],     :args => [:flags],                         :control_flow => :next
+    opcode 55, :allow_private,               :stack => [0, 0],     :args => [],                               :control_flow => :next
+    opcode 56, :send_method,                 :stack => [1, 1],     :args => [:literal],                       :control_flow => :send
+    opcode 57, :send_stack,                  :stack => [[1,2], 1], :args => [:literal, :count],               :control_flow => :send
+    opcode 58, :send_stack_with_block,       :stack => [[2,2], 1], :args => [:literal, :count],               :control_flow => :send
 
     CALL_FLAG_CONCAT = 2
 
-    opcode 58, :send_stack_with_splat,       :stack => [[3,2], 1], :args => [:literal, :count],               :control_flow => :send
-    opcode 59, :send_super_stack_with_block, :stack => [[1,2], 1], :args => [:literal, :count],               :control_flow => :send
-    opcode 60, :send_super_stack_with_splat, :stack => [[2,2], 1], :args => [:literal, :count],               :control_flow => :send
+    opcode 59, :send_stack_with_splat,       :stack => [[3,2], 1], :args => [:literal, :count],               :control_flow => :send
+    opcode 60, :send_super_stack_with_block, :stack => [[1,2], 1], :args => [:literal, :count],               :control_flow => :send
+    opcode 61, :send_super_stack_with_splat, :stack => [[2,2], 1], :args => [:literal, :count],               :control_flow => :send
 
     # Manipulate blocks
-    opcode 61, :push_block,                  :stack => [0, 1],     :args => [],                               :control_flow => :next
-    opcode 62, :passed_blockarg,             :stack => [0, 1],     :args => [:count],                         :control_flow => :next
-    opcode 63, :create_block,                :stack => [0, 1],     :args => [:literal],                       :control_flow => :next
-    opcode 64, :cast_for_single_block_arg,   :stack => [0, 1],     :args => [],                               :control_flow => :next
-    opcode 65, :cast_for_multi_block_arg,    :stack => [0, 1],     :args => [],                               :control_flow => :next
-    opcode 66, :cast_for_splat_block_arg,    :stack => [0, 1],     :args => [],                               :control_flow => :next
-    opcode 67, :yield_stack,                 :stack => [[0,1], 1], :args => [:count],                         :control_flow => :yield
-    opcode 68, :yield_splat,                 :stack => [[1,1], 1], :args => [:count],                         :control_flow => :yield
+    opcode 62, :push_block,                  :stack => [0, 1],     :args => [],                               :control_flow => :next
+    opcode 63, :passed_blockarg,             :stack => [0, 1],     :args => [:count],                         :control_flow => :next
+    opcode 64, :create_block,                :stack => [0, 1],     :args => [:literal],                       :control_flow => :next
+    opcode 65, :cast_for_single_block_arg,   :stack => [0, 1],     :args => [],                               :control_flow => :next
+    opcode 66, :cast_for_multi_block_arg,    :stack => [0, 1],     :args => [],                               :control_flow => :next
+    opcode 67, :cast_for_splat_block_arg,    :stack => [0, 1],     :args => [],                               :control_flow => :next
+    opcode 68, :yield_stack,                 :stack => [[0,1], 1], :args => [:count],                         :control_flow => :yield
+    opcode 69, :yield_splat,                 :stack => [[1,1], 1], :args => [:count],                         :control_flow => :yield
 
     # Manipulate strings
-    opcode 69, :string_append,               :stack => [2, 1],     :args => [],                               :control_flow => :next
-    opcode 70, :string_build,                :stack => [[0,1], 1], :args => [:count],                         :control_flow => :next
-    opcode 71, :string_dup,                  :stack => [1, 1],     :args => [],                               :control_flow => :next
+    opcode 70, :string_append,               :stack => [2, 1],     :args => [],                               :control_flow => :next
+    opcode 71, :string_build,                :stack => [[0,1], 1], :args => [:count],                         :control_flow => :next
+    opcode 72, :string_dup,                  :stack => [1, 1],     :args => [],                               :control_flow => :next
 
     # Manipulate scope
-    opcode 72, :push_scope,                  :stack => [0, 1],     :args => [],                               :control_flow => :next
-    opcode 73, :add_scope,                   :stack => [1, 0],     :args => [],                               :control_flow => :next
-    opcode 74, :push_variables,              :stack => [0, 1],     :args => [],                               :control_flow => :next
+    opcode 73, :push_scope,                  :stack => [0, 1],     :args => [],                               :control_flow => :next
+    opcode 74, :add_scope,                   :stack => [1, 0],     :args => [],                               :control_flow => :next
+    opcode 75, :push_variables,              :stack => [0, 1],     :args => [],                               :control_flow => :next
 
     # Miscellaneous. TODO: better categorize these
-    opcode 75, :check_interrupts,            :stack => [0, 0],     :args => [],                               :control_flow => :next
-    opcode 76, :yield_debugger,              :stack => [0, 0],     :args => [],                               :control_flow => :next
-    opcode 77, :is_nil,                      :stack => [1, 1],     :args => [],                               :control_flow => :next
-    opcode 78, :check_serial,                :stack => [1, 1],     :args => [:literal, :serial],              :control_flow => :next
-    opcode 79, :check_serial_private,        :stack => [1, 1],     :args => [:literal, :serial],              :control_flow => :next
+    opcode 76, :check_interrupts,            :stack => [0, 0],     :args => [],                               :control_flow => :next
+    opcode 77, :yield_debugger,              :stack => [0, 0],     :args => [],                               :control_flow => :next
+    opcode 78, :is_nil,                      :stack => [1, 1],     :args => [],                               :control_flow => :next
+    opcode 79, :check_serial,                :stack => [1, 1],     :args => [:literal, :serial],              :control_flow => :next
+    opcode 80, :check_serial_private,        :stack => [1, 1],     :args => [:literal, :serial],              :control_flow => :next
 
     # Access object fields
-    opcode 80, :push_my_field,               :stack => [0, 1],     :args => [:index],                         :control_flow => :next
-    opcode 81, :store_my_field,              :stack => [1, 1],     :args => [:index],                         :control_flow => :next
+    opcode 81, :push_my_field,               :stack => [0, 1],     :args => [:index],                         :control_flow => :next
+    opcode 82, :store_my_field,              :stack => [1, 1],     :args => [:index],                         :control_flow => :next
 
     # Type checks
-    opcode 82, :kind_of,                     :stack => [2, 1],     :args => [],                               :control_flow => :next
-    opcode 83, :instance_of,                 :stack => [2, 1],     :args => [],                               :control_flow => :next
+    opcode 83, :kind_of,                     :stack => [2, 1],     :args => [],                               :control_flow => :next
+    opcode 84, :instance_of,                 :stack => [2, 1],     :args => [],                               :control_flow => :next
 
     # Optimizations
-    opcode 84, :meta_push_neg_1,             :stack => [0, 1],     :args => [],                               :control_flow => :next
-    opcode 85, :meta_push_0,                 :stack => [0, 1],     :args => [],                               :control_flow => :next
-    opcode 86, :meta_push_1,                 :stack => [0, 1],     :args => [],                               :control_flow => :next
-    opcode 87, :meta_push_2,                 :stack => [0, 1],     :args => [],                               :control_flow => :next
-    opcode 88, :meta_send_op_plus,           :stack => [2, 1],     :args => [:literal],                       :control_flow => :send
-    opcode 89, :meta_send_op_minus,          :stack => [2, 1],     :args => [:literal],                       :control_flow => :send
-    opcode 90, :meta_send_op_equal,          :stack => [2, 1],     :args => [:literal],                       :control_flow => :send
-    opcode 91, :meta_send_op_lt,             :stack => [2, 1],     :args => [:literal],                       :control_flow => :next
-    opcode 92, :meta_send_op_gt,             :stack => [2, 1],     :args => [:literal],                       :control_flow => :next
-    opcode 93, :meta_send_op_tequal,         :stack => [2, 1],     :args => [:literal],                       :control_flow => :send
-    opcode 94, :meta_send_call,              :stack => [[1,2], 1], :args => [:literal, :count],               :control_flow => :send
+    opcode 85, :meta_push_neg_1,             :stack => [0, 1],     :args => [],                               :control_flow => :next
+    opcode 86, :meta_push_0,                 :stack => [0, 1],     :args => [],                               :control_flow => :next
+    opcode 87, :meta_push_1,                 :stack => [0, 1],     :args => [],                               :control_flow => :next
+    opcode 88, :meta_push_2,                 :stack => [0, 1],     :args => [],                               :control_flow => :next
+    opcode 89, :meta_send_op_plus,           :stack => [2, 1],     :args => [:literal],                       :control_flow => :send
+    opcode 90, :meta_send_op_minus,          :stack => [2, 1],     :args => [:literal],                       :control_flow => :send
+    opcode 91, :meta_send_op_equal,          :stack => [2, 1],     :args => [:literal],                       :control_flow => :send
+    opcode 92, :meta_send_op_lt,             :stack => [2, 1],     :args => [:literal],                       :control_flow => :next
+    opcode 93, :meta_send_op_gt,             :stack => [2, 1],     :args => [:literal],                       :control_flow => :next
+    opcode 94, :meta_send_op_tequal,         :stack => [2, 1],     :args => [:literal],                       :control_flow => :send
+    opcode 95, :meta_send_call,              :stack => [[1,2], 1], :args => [:literal, :count],               :control_flow => :send
 
     # More misc
-    opcode 95, :push_my_offset,              :stack => [0, 1],     :args => [:index],                         :control_flow => :next
-    opcode 96, :zsuper,                      :stack => [1, 1],     :args => [:literal],                       :control_flow => :next
-    opcode 97, :push_block_arg,              :stack => [0, 1],     :args => [],                               :control_flow => :next
-    opcode 98, :push_undef,                  :stack => [0, 1],     :args => [],                               :control_flow => :next
-    opcode 99, :push_stack_local,            :stack => [0, 1],     :args => [:which],                         :control_flow => :next
-    opcode 100, :set_stack_local,             :stack => [1, 1],     :args => [:which],                         :control_flow => :next
-    opcode 101, :push_has_block,              :stack => [0, 1],     :args => [],                               :control_flow => :next
-    opcode 102, :push_proc,                   :stack => [0, 1],     :args => [],                               :control_flow => :next
-    opcode 103, :check_frozen,                :stack => [1, 1],     :args => [],                               :control_flow => :next
-    opcode 104, :cast_multi_value,            :stack => [1, 1],     :args => [],                               :control_flow => :next
-    opcode 105, :invoke_primitive,            :stack => [[0,2], 1], :args => [:literal, :count],               :control_flow => :next
-    opcode 106, :push_rubinius,               :stack => [0, 1],     :args => [],                               :control_flow => :next
-    opcode 107, :call_custom,                 :stack => [[1,2], 1], :args => [:literal, :count],               :control_flow => :send
-    opcode 108, :meta_to_s,                   :stack => [1, 1],     :args => [:literal],                       :control_flow => :send
-    opcode 109, :push_type,                   :stack => [0, 1],     :args => [],                               :control_flow => :next
-    opcode 110, :push_mirror,                 :stack => [0, 1],     :args => [],                               :control_flow => :next
+    opcode 96, :push_my_offset,              :stack => [0, 1],     :args => [:index],                         :control_flow => :next
+    opcode 97, :zsuper,                      :stack => [1, 1],     :args => [:literal],                       :control_flow => :next
+    opcode 98, :push_block_arg,              :stack => [0, 1],     :args => [],                               :control_flow => :next
+    opcode 99, :push_undef,                  :stack => [0, 1],     :args => [],                               :control_flow => :next
+    opcode 100, :push_stack_local,            :stack => [0, 1],     :args => [:which],                         :control_flow => :next
+    opcode 101, :set_stack_local,             :stack => [1, 1],     :args => [:which],                         :control_flow => :next
+    opcode 102, :push_has_block,              :stack => [0, 1],     :args => [],                               :control_flow => :next
+    opcode 103, :push_proc,                   :stack => [0, 1],     :args => [],                               :control_flow => :next
+    opcode 104, :check_frozen,                :stack => [1, 1],     :args => [],                               :control_flow => :next
+    opcode 105, :cast_multi_value,            :stack => [1, 1],     :args => [],                               :control_flow => :next
+    opcode 106, :invoke_primitive,            :stack => [[0,2], 1], :args => [:literal, :count],               :control_flow => :next
+    opcode 107, :push_rubinius,               :stack => [0, 1],     :args => [],                               :control_flow => :next
+    opcode 108, :call_custom,                 :stack => [[1,2], 1], :args => [:literal, :count],               :control_flow => :send
+    opcode 109, :meta_to_s,                   :stack => [1, 1],     :args => [:literal],                       :control_flow => :send
+    opcode 110, :push_type,                   :stack => [0, 1],     :args => [],                               :control_flow => :next
+    opcode 111, :push_mirror,                 :stack => [0, 1],     :args => [],                               :control_flow => :next
   end
 end

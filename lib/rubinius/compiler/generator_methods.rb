@@ -255,81 +255,88 @@ module CodeTools
         @instruction = 24
       end
 
-      def set_local(arg1)
+      def move_up(arg1)
         @stream << 25 << arg1
         @ip += 2
-        @current_block.add_stack(1, 1)
+        @current_block.add_stack(arg1, (arg1 * 1))
         @instruction = 25
       end
 
-      def push_local(arg1)
+      def set_local(arg1)
         @stream << 26 << arg1
         @ip += 2
-        @current_block.add_stack(0, 1)
+        @current_block.add_stack(1, 1)
         @instruction = 26
       end
 
-      def push_local_depth(arg1, arg2)
-        @stream << 27 << arg1 << arg2
-        @ip += 3
+      def push_local(arg1)
+        @stream << 27 << arg1
+        @ip += 2
         @current_block.add_stack(0, 1)
         @instruction = 27
       end
 
-      def set_local_depth(arg1, arg2)
+      def push_local_depth(arg1, arg2)
         @stream << 28 << arg1 << arg2
         @ip += 3
-        @current_block.add_stack(1, 1)
+        @current_block.add_stack(0, 1)
         @instruction = 28
       end
 
-      def passed_arg(arg1)
-        @stream << 29 << arg1
-        @ip += 2
-        @current_block.add_stack(0, 1)
+      def set_local_depth(arg1, arg2)
+        @stream << 29 << arg1 << arg2
+        @ip += 3
+        @current_block.add_stack(1, 1)
         @instruction = 29
       end
 
-      def push_current_exception
-        @stream << 30
-        @ip += 1
+      def passed_arg(arg1)
+        @stream << 30 << arg1
+        @ip += 2
         @current_block.add_stack(0, 1)
         @instruction = 30
       end
 
-      def clear_exception
+      def push_current_exception
         @stream << 31
         @ip += 1
-        @current_block.add_stack(0, 0)
+        @current_block.add_stack(0, 1)
         @instruction = 31
       end
 
-      def push_exception_state
+      def clear_exception
         @stream << 32
         @ip += 1
-        @current_block.add_stack(0, 1)
+        @current_block.add_stack(0, 0)
         @instruction = 32
       end
 
-      def restore_exception_state
+      def push_exception_state
         @stream << 33
         @ip += 1
-        @current_block.add_stack(1, 0)
+        @current_block.add_stack(0, 1)
         @instruction = 33
       end
 
-      def raise_exc
+      def restore_exception_state
         @stream << 34
+        @ip += 1
+        @current_block.add_stack(1, 0)
+        @instruction = 34
+      end
+
+      def raise_exc
+        @stream << 35
         @ip += 1
         @current_block.add_stack(1, 0)
         @current_block.close false
         @current_block = new_basic_block
-        @instruction = 34
+        @instruction = 35
       end
 
       def setup_unwind(arg1, arg2)
         location = @ip + 1
-        @stream << 35 << arg1 << arg2
+        @stream << 36 << arg1 << arg2
         @ip += 3
         arg1.used_at location
         @current_block.add_stack(0, 0)
@@ -338,26 +345,17 @@ module CodeTools
         block = new_basic_block
         @current_block.right = block
         @current_block = block
-        @instruction = 35
-      end
-
-      def pop_unwind
-        @stream << 36
-        @ip += 1
-        @current_block.add_stack(0, 0)
         @instruction = 36
       end
 
-      def raise_return
+      def pop_unwind
         @stream << 37
         @ip += 1
-        @current_block.add_stack(1, 1)
-        @current_block.close true
-        @current_block = new_basic_block
+        @current_block.add_stack(0, 0)
         @instruction = 37
       end
 
-      def ensure_return
+      def raise_return
         @stream << 38
         @ip += 1
         @current_block.add_stack(1, 1)
@@ -366,292 +364,292 @@ module CodeTools
         @instruction = 38
       end
 
-      def raise_break
+      def ensure_return
         @stream << 39
         @ip += 1
         @current_block.add_stack(1, 1)
-        @current_block.close false
+        @current_block.close true
         @current_block = new_basic_block
         @instruction = 39
       end
 
-      def reraise
+      def raise_break
         @stream << 40
         @ip += 1
-        @current_block.add_stack(0, 0)
+        @current_block.add_stack(1, 1)
         @current_block.close false
         @current_block = new_basic_block
         @instruction = 40
       end
 
-      def make_array(arg1)
-        @stream << 41 << arg1
-        @ip += 2
-        @current_block.add_stack(arg1, 1)
+      def reraise
+        @stream << 41
+        @ip += 1
+        @current_block.add_stack(0, 0)
+        @current_block.close false
+        @current_block = new_basic_block
         @instruction = 41
       end
 
-      def cast_array
-        unless @instruction == 42 or @instruction == 41
-          @stream << 42
-          @ip += 1
-        end
+      def make_array(arg1)
+        @stream << 42 << arg1
+        @ip += 2
+        @current_block.add_stack(arg1, 1)
         @instruction = 42
       end
 
+      def cast_array
+        unless @instruction == 43 or @instruction == 42
+          @stream << 43
+          @ip += 1
+        end
+        @instruction = 43
+      end
+
       def shift_array
-        @stream << 43
+        @stream << 44
         @ip += 1
         @current_block.add_stack(1, 2)
-        @instruction = 43
+        @instruction = 44
       end
 
       def set_ivar(arg1)
         arg1 = find_literal arg1
-        @stream << 44 << arg1
+        @stream << 45 << arg1
         @ip += 2
         @current_block.add_stack(1, 1)
-        @instruction = 44
+        @instruction = 45
       end
 
       def push_ivar(arg1)
         arg1 = find_literal arg1
-        @stream << 45 << arg1
+        @stream << 46 << arg1
         @ip += 2
         @current_block.add_stack(0, 1)
-        @instruction = 45
+        @instruction = 46
       end
 
       def set_const(arg1)
-        @stream << 47 << arg1
+        @stream << 48 << arg1
         @ip += 2
         @current_block.add_stack(1, 1)
-        @instruction = 47
+        @instruction = 48
       end
 
       def set_const_at(arg1)
-        @stream << 48 << arg1
+        @stream << 49 << arg1
         @ip += 2
         @current_block.add_stack(2, 1)
-        @instruction = 48
+        @instruction = 49
       end
 
       def find_const(arg1)
         arg1 = find_literal arg1
-        @stream << 49 << arg1
+        @stream << 50 << arg1
         @ip += 2
         @current_block.add_stack(1, 1)
-        @instruction = 49
-      end
-
-      def push_cpath_top
-        @stream << 50
-        @ip += 1
-        @current_block.add_stack(0, 1)
         @instruction = 50
       end
 
-      def push_const_fast(arg1)
-        @stream << 51 << arg1
-        @ip += 2
+      def push_cpath_top
+        @stream << 51
+        @ip += 1
         @current_block.add_stack(0, 1)
         @instruction = 51
       end
 
-      def find_const_fast(arg1)
+      def push_const_fast(arg1)
         @stream << 52 << arg1
         @ip += 2
-        @current_block.add_stack(1, 1)
+        @current_block.add_stack(0, 1)
         @instruction = 52
       end
 
-      def set_call_flags(arg1)
+      def find_const_fast(arg1)
         @stream << 53 << arg1
         @ip += 2
-        @current_block.add_stack(0, 0)
+        @current_block.add_stack(1, 1)
         @instruction = 53
       end
 
-      def allow_private
-        @stream << 54
-        @ip += 1
+      def set_call_flags(arg1)
+        @stream << 54 << arg1
+        @ip += 2
         @current_block.add_stack(0, 0)
         @instruction = 54
       end
 
-      def send_method(arg1)
-        @stream << 55 << arg1
-        @ip += 2
-        @current_block.add_stack(1, 1)
+      def allow_private
+        @stream << 55
+        @ip += 1
+        @current_block.add_stack(0, 0)
         @instruction = 55
       end
 
-      def send_stack(arg1, arg2)
-        @stream << 56 << arg1 << arg2
-        @ip += 3
-        @current_block.add_stack(arg2+1, 1)
+      def send_method(arg1)
+        @stream << 56 << arg1
+        @ip += 2
+        @current_block.add_stack(1, 1)
         @instruction = 56
       end
 
-      def send_stack_with_block(arg1, arg2)
+      def send_stack(arg1, arg2)
         @stream << 57 << arg1 << arg2
         @ip += 3
-        @current_block.add_stack(arg2+2, 1)
+        @current_block.add_stack(arg2+1, 1)
         @instruction = 57
       end
 
-      def send_stack_with_splat(arg1, arg2)
+      def send_stack_with_block(arg1, arg2)
         @stream << 58 << arg1 << arg2
         @ip += 3
-        @current_block.add_stack(arg2+3, 1)
+        @current_block.add_stack(arg2+2, 1)
         @instruction = 58
       end
 
-      def send_super_stack_with_block(arg1, arg2)
+      def send_stack_with_splat(arg1, arg2)
         @stream << 59 << arg1 << arg2
         @ip += 3
-        @current_block.add_stack(arg2+1, 1)
+        @current_block.add_stack(arg2+3, 1)
         @instruction = 59
       end
 
-      def send_super_stack_with_splat(arg1, arg2)
+      def send_super_stack_with_block(arg1, arg2)
         @stream << 60 << arg1 << arg2
         @ip += 3
-        @current_block.add_stack(arg2+2, 1)
+        @current_block.add_stack(arg2+1, 1)
         @instruction = 60
       end
 
-      def push_block
-        @stream << 61
-        @ip += 1
-        @current_block.add_stack(0, 1)
+      def send_super_stack_with_splat(arg1, arg2)
+        @stream << 61 << arg1 << arg2
+        @ip += 3
+        @current_block.add_stack(arg2+2, 1)
         @instruction = 61
       end
 
-      def passed_blockarg(arg1)
-        @stream << 62 << arg1
-        @ip += 2
+      def push_block
+        @stream << 62
+        @ip += 1
         @current_block.add_stack(0, 1)
         @instruction = 62
       end
 
-      def create_block(arg1)
-        arg1 = add_literal arg1
-        @generators << arg1
+      def passed_blockarg(arg1)
         @stream << 63 << arg1
         @ip += 2
         @current_block.add_stack(0, 1)
         @instruction = 63
       end
 
-      def cast_for_single_block_arg
-        @stream << 64
-        @ip += 1
+      def create_block(arg1)
+        arg1 = add_literal arg1
+        @generators << arg1
+        @stream << 64 << arg1
+        @ip += 2
         @current_block.add_stack(0, 1)
         @instruction = 64
       end
 
-      def cast_for_multi_block_arg
+      def cast_for_single_block_arg
         @stream << 65
         @ip += 1
         @current_block.add_stack(0, 1)
         @instruction = 65
       end
 
-      def cast_for_splat_block_arg
+      def cast_for_multi_block_arg
         @stream << 66
         @ip += 1
         @current_block.add_stack(0, 1)
         @instruction = 66
       end
 
-      def yield_stack(arg1)
-        @stream << 67 << arg1
-        @ip += 2
-        @current_block.add_stack(arg1, 1)
+      def cast_for_splat_block_arg
+        @stream << 67
+        @ip += 1
+        @current_block.add_stack(0, 1)
         @instruction = 67
       end
 
-      def yield_splat(arg1)
+      def yield_stack(arg1)
         @stream << 68 << arg1
         @ip += 2
-        @current_block.add_stack(arg1+1, 1)
+        @current_block.add_stack(arg1, 1)
         @instruction = 68
       end
 
-      def string_append
-        @stream << 69
-        @ip += 1
-        @current_block.add_stack(2, 1)
+      def yield_splat(arg1)
+        @stream << 69 << arg1
+        @ip += 2
+        @current_block.add_stack(arg1+1, 1)
         @instruction = 69
       end
 
-      def string_build(arg1)
-        @stream << 70 << arg1
-        @ip += 2
-        @current_block.add_stack(arg1, 1)
+      def string_append
+        @stream << 70
+        @ip += 1
+        @current_block.add_stack(2, 1)
         @instruction = 70
       end
 
-      def string_dup
-        @stream << 71
-        @ip += 1
-        @current_block.add_stack(1, 1)
+      def string_build(arg1)
+        @stream << 71 << arg1
+        @ip += 2
+        @current_block.add_stack(arg1, 1)
         @instruction = 71
       end
 
-      def push_scope
+      def string_dup
         @stream << 72
         @ip += 1
-        @current_block.add_stack(0, 1)
+        @current_block.add_stack(1, 1)
         @instruction = 72
       end
 
-      def add_scope
+      def push_scope
         @stream << 73
         @ip += 1
-        @current_block.add_stack(1, 0)
+        @current_block.add_stack(0, 1)
         @instruction = 73
       end
 
-      def push_variables
+      def add_scope
         @stream << 74
         @ip += 1
-        @current_block.add_stack(0, 1)
+        @current_block.add_stack(1, 0)
         @instruction = 74
       end
 
-      def check_interrupts
+      def push_variables
         @stream << 75
         @ip += 1
-        @current_block.add_stack(0, 0)
+        @current_block.add_stack(0, 1)
         @instruction = 75
       end
 
-      def yield_debugger
+      def check_interrupts
         @stream << 76
         @ip += 1
         @current_block.add_stack(0, 0)
         @instruction = 76
       end
 
-      def is_nil
+      def yield_debugger
         @stream << 77
         @ip += 1
-        @current_block.add_stack(1, 1)
+        @current_block.add_stack(0, 0)
         @instruction = 77
       end
 
-      def check_serial(arg1, arg2)
-        arg1 = find_literal arg1
-        arg2 = Integer(arg2)
-        @stream << 78 << arg1 << arg2
-        @ip += 3
+      def is_nil
+        @stream << 78
+        @ip += 1
         @current_block.add_stack(1, 1)
         @instruction = 78
       end
 
-      def check_serial_private(arg1, arg2)
+      def check_serial(arg1, arg2)
         arg1 = find_literal arg1
         arg2 = Integer(arg2)
         @stream << 79 << arg1 << arg2
@@ -660,226 +658,235 @@ module CodeTools
         @instruction = 79
       end
 
-      def push_my_field(arg1)
-        @stream << 80 << arg1
-        @ip += 2
-        @current_block.add_stack(0, 1)
+      def check_serial_private(arg1, arg2)
+        arg1 = find_literal arg1
+        arg2 = Integer(arg2)
+        @stream << 80 << arg1 << arg2
+        @ip += 3
+        @current_block.add_stack(1, 1)
         @instruction = 80
       end
 
-      def store_my_field(arg1)
+      def push_my_field(arg1)
         @stream << 81 << arg1
         @ip += 2
-        @current_block.add_stack(1, 1)
+        @current_block.add_stack(0, 1)
         @instruction = 81
       end
 
-      def kind_of
-        @stream << 82
-        @ip += 1
-        @current_block.add_stack(2, 1)
+      def store_my_field(arg1)
+        @stream << 82 << arg1
+        @ip += 2
+        @current_block.add_stack(1, 1)
         @instruction = 82
       end
 
-      def instance_of
+      def kind_of
         @stream << 83
         @ip += 1
         @current_block.add_stack(2, 1)
         @instruction = 83
       end
 
-      def meta_push_neg_1
+      def instance_of
         @stream << 84
         @ip += 1
-        @current_block.add_stack(0, 1)
+        @current_block.add_stack(2, 1)
         @instruction = 84
       end
 
-      def meta_push_0
+      def meta_push_neg_1
         @stream << 85
         @ip += 1
         @current_block.add_stack(0, 1)
         @instruction = 85
       end
 
-      def meta_push_1
+      def meta_push_0
         @stream << 86
         @ip += 1
         @current_block.add_stack(0, 1)
         @instruction = 86
       end
 
-      def meta_push_2
+      def meta_push_1
         @stream << 87
         @ip += 1
         @current_block.add_stack(0, 1)
         @instruction = 87
       end
 
-      def meta_send_op_plus(arg1)
-        @stream << 88 << arg1
-        @ip += 2
-        @current_block.add_stack(2, 1)
+      def meta_push_2
+        @stream << 88
+        @ip += 1
+        @current_block.add_stack(0, 1)
         @instruction = 88
       end
 
-      def meta_send_op_minus(arg1)
+      def meta_send_op_plus(arg1)
         @stream << 89 << arg1
         @ip += 2
         @current_block.add_stack(2, 1)
         @instruction = 89
       end
 
-      def meta_send_op_equal(arg1)
+      def meta_send_op_minus(arg1)
         @stream << 90 << arg1
         @ip += 2
         @current_block.add_stack(2, 1)
         @instruction = 90
       end
 
-      def meta_send_op_lt(arg1)
+      def meta_send_op_equal(arg1)
         @stream << 91 << arg1
         @ip += 2
         @current_block.add_stack(2, 1)
         @instruction = 91
       end
 
-      def meta_send_op_gt(arg1)
+      def meta_send_op_lt(arg1)
         @stream << 92 << arg1
         @ip += 2
         @current_block.add_stack(2, 1)
         @instruction = 92
       end
 
-      def meta_send_op_tequal(arg1)
+      def meta_send_op_gt(arg1)
         @stream << 93 << arg1
         @ip += 2
         @current_block.add_stack(2, 1)
         @instruction = 93
       end
 
-      def meta_send_call(arg1, arg2)
-        @stream << 94 << arg1 << arg2
-        @ip += 3
-        @current_block.add_stack(arg2+1, 1)
+      def meta_send_op_tequal(arg1)
+        @stream << 94 << arg1
+        @ip += 2
+        @current_block.add_stack(2, 1)
         @instruction = 94
       end
 
+      def meta_send_call(arg1, arg2)
+        @stream << 95 << arg1 << arg2
+        @ip += 3
+        @current_block.add_stack(arg2+1, 1)
+        @instruction = 95
+      end
+
       def push_my_offset(arg1)
-        @stream << 95 << arg1
+        @stream << 96 << arg1
         @ip += 2
         @current_block.add_stack(0, 1)
-        @instruction = 95
+        @instruction = 96
       end
 
       def zsuper(arg1)
         arg1 = find_literal arg1
-        @stream << 96 << arg1
+        @stream << 97 << arg1
         @ip += 2
         @current_block.add_stack(1, 1)
-        @instruction = 96
-      end
-
-      def push_block_arg
-        @stream << 97
-        @ip += 1
-        @current_block.add_stack(0, 1)
         @instruction = 97
       end
 
-      def push_undef
+      def push_block_arg
         @stream << 98
         @ip += 1
         @current_block.add_stack(0, 1)
         @instruction = 98
       end
 
-      def push_stack_local(arg1)
-        @stream << 99 << arg1
-        @ip += 2
+      def push_undef
+        @stream << 99
+        @ip += 1
         @current_block.add_stack(0, 1)
         @instruction = 99
       end
 
-      def set_stack_local(arg1)
+      def push_stack_local(arg1)
         @stream << 100 << arg1
         @ip += 2
-        @current_block.add_stack(1, 1)
+        @current_block.add_stack(0, 1)
         @instruction = 100
       end
 
-      def push_has_block
-        @stream << 101
-        @ip += 1
-        @current_block.add_stack(0, 1)
+      def set_stack_local(arg1)
+        @stream << 101 << arg1
+        @ip += 2
+        @current_block.add_stack(1, 1)
         @instruction = 101
       end
 
-      def push_proc
+      def push_has_block
         @stream << 102
         @ip += 1
         @current_block.add_stack(0, 1)
         @instruction = 102
       end
 
-      def check_frozen
+      def push_proc
         @stream << 103
         @ip += 1
-        @current_block.add_stack(1, 1)
+        @current_block.add_stack(0, 1)
         @instruction = 103
       end
 
-      def cast_multi_value
+      def check_frozen
         @stream << 104
         @ip += 1
         @current_block.add_stack(1, 1)
         @instruction = 104
       end
 
-      def invoke_primitive(arg1, arg2)
-        arg1 = find_literal arg1
-        arg2 = Integer(arg2)
-        @stream << 105 << arg1 << arg2
-        @ip += 3
-        @current_block.add_stack(arg2, 1)
+      def cast_multi_value
+        @stream << 105
+        @ip += 1
+        @current_block.add_stack(1, 1)
         @instruction = 105
       end
 
+      def invoke_primitive(arg1, arg2)
+        arg1 = find_literal arg1
+        arg2 = Integer(arg2)
+        @stream << 106 << arg1 << arg2
+        @ip += 3
+        @current_block.add_stack(arg2, 1)
+        @instruction = 106
+      end
+
       def push_rubinius
-        @stream << 106
+        @stream << 107
         @ip += 1
         @current_block.add_stack(0, 1)
-        @instruction = 106
+        @instruction = 107
       end
 
       def call_custom(arg1, arg2)
         arg1 = find_literal arg1
         arg2 = Integer(arg2)
-        @stream << 107 << arg1 << arg2
+        @stream << 108 << arg1 << arg2
         @ip += 3
         @current_block.add_stack(arg2+1, 1)
-        @instruction = 107
-      end
-
-      def meta_to_s(arg1)
-        @stream << 108 << arg1
-        @ip += 2
-        @current_block.add_stack(1, 1)
         @instruction = 108
       end
 
-      def push_type
-        @stream << 109
-        @ip += 1
-        @current_block.add_stack(0, 1)
+      def meta_to_s(arg1)
+        @stream << 109 << arg1
+        @ip += 2
+        @current_block.add_stack(1, 1)
         @instruction = 109
       end
 
-      def push_mirror
+      def push_type
         @stream << 110
         @ip += 1
         @current_block.add_stack(0, 1)
         @instruction = 110
+      end
+
+      def push_mirror
+        @stream << 111
+        @ip += 1
+        @current_block.add_stack(0, 1)
+        @instruction = 111
       end
 
   end
